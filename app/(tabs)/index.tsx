@@ -1,8 +1,7 @@
 import { Image } from "expo-image";
 import { StyleSheet } from "react-native";
-import { Button } from "tamagui";
 import ParallaxScrollView from "@/components/ParallaxScrollView";
-import { ThemedView } from "@/components/ThemedView";
+import ThemedButton from "@/components/ui/ThemedButton";
 
 export default function HomeScreen() {
   return (
@@ -15,9 +14,7 @@ export default function HomeScreen() {
         />
       }
     >
-      <ThemedView style={styles.stepContainer}>
-        <Button>This is a button</Button>
-      </ThemedView>
+      <ThemedButton title="Click me" onPress={() => {}} />
     </ParallaxScrollView>
   );
 }
@@ -27,10 +24,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     gap: 8,
-  },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
   },
   reactLogo: {
     height: 178,

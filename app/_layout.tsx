@@ -7,9 +7,7 @@ import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
 import "react-native-reanimated";
 import { StatusBar } from "expo-status-bar";
-import { TamaguiProvider, Theme } from "tamagui";
 import { useColorScheme } from "@/hooks/useColorScheme";
-import { config } from "@/tamagui.config";
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
@@ -24,15 +22,11 @@ export default function RootLayout() {
 
   return (
     <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-      <TamaguiProvider config={config}>
-        <Theme name={colorScheme === "dark" ? "dark" : "light"}>
-          <Stack>
-            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-            <Stack.Screen name="+not-found" />
-          </Stack>
-          <StatusBar style="auto" />
-        </Theme>
-      </TamaguiProvider>
+      <Stack>
+        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+        <Stack.Screen name="+not-found" />
+      </Stack>
+      <StatusBar style="auto" />
     </ThemeProvider>
   );
 }
