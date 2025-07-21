@@ -6,14 +6,23 @@ import {
 import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
 import "react-native-reanimated";
-import { ConvexProvider, ConvexReactClient } from "convex/react";
+import { ConvexAuthProvider } from "@convex-dev/auth/react";
+import { ConvexReactClient } from "convex/react";
+import * as SecureStore from "expo-secure-store";
 import { StatusBar } from "expo-status-bar";
+import { Platform } from "react-native";
 import { useColorScheme } from "@/hooks/useColorScheme";
 
 // biome-ignore lint/style/noNonNullAssertion: env
 const convex = new ConvexReactClient(process.env.EXPO_PUBLIC_CONVEX_URL!, {
   unsavedChangesWarning: false,
 });
+
+const secureStorage = {
+  getItem: SecureStore.getItemAsync,
+  setItem: SecureStore.setItemAsync,
+  removeItem: SecureStore.deleteItemAsync,
+};
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
@@ -27,7 +36,14 @@ export default function RootLayout() {
   }
 
   return (
-    <ConvexProvider client={convex}>
+    <ConvexAuthProvider
+      client={convex}
+      storage={
+        Platform.OS === "android" || Platform.OS === "ios"
+          ? secureStorage
+          : undefined
+      }
+    >
       <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
         <Stack>
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
@@ -35,6 +51,6 @@ export default function RootLayout() {
         </Stack>
         <StatusBar style="auto" />
       </ThemeProvider>
-    </ConvexProvider>
+    </ConvexAuthProvider>
   );
 }
