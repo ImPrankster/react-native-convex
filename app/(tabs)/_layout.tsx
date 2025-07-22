@@ -1,6 +1,6 @@
-import { Tabs } from "expo-router";
+import { useAuth } from "@clerk/clerk-expo";
+import { Redirect, Tabs } from "expo-router";
 import { Platform } from "react-native";
-
 import { HapticTab } from "@/components/HapticTab";
 import { IconSymbol } from "@/components/ui/IconSymbol";
 import TabBarBackground from "@/components/ui/TabBarBackground";
@@ -9,6 +9,11 @@ import { useColorScheme } from "@/hooks/useColorScheme";
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
+  const { isSignedIn } = useAuth();
+
+  if (!isSignedIn) {
+    return <Redirect href={"/sign-in"} />;
+  }
 
   return (
     <Tabs

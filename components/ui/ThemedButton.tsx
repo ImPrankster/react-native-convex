@@ -1,21 +1,27 @@
 import {
   type GestureResponderEvent,
+  type StyleProp,
   StyleSheet,
-  Text,
   TouchableOpacity,
+  type ViewStyle,
 } from "react-native";
 import { useThemeColor } from "@/hooks/useThemeColor";
+import { ThemedText } from "../ThemedText";
 
 interface ThemedButtonProps {
   title?: string;
   onPress?: (event: GestureResponderEvent) => void;
   lightColor?: string;
   darkColor?: string;
+  disabled?: boolean;
+  style?: StyleProp<ViewStyle>;
 }
 
 const ThemedButton = ({
   title = "Click me",
   onPress = () => {},
+  disabled = false,
+  style,
   lightColor,
   darkColor,
 }: ThemedButtonProps) => {
@@ -28,11 +34,14 @@ const ThemedButton = ({
 
   return (
     <TouchableOpacity
-      style={[styles.button, { backgroundColor: `#${backgroundColor}` }]}
+      style={[styles.button, { backgroundColor: `#${backgroundColor}` }, style]}
       onPress={onPress}
       activeOpacity={0.8}
+      disabled={disabled}
     >
-      <Text style={[styles.text, { color: textColor }]}>{title}</Text>
+      <ThemedText style={[styles.text, { color: textColor }]}>
+        {title}
+      </ThemedText>
     </TouchableOpacity>
   );
 };
